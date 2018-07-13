@@ -327,9 +327,49 @@ function custom_post_type() {
  
 }
  
-/* Hook into the 'init' action so that the function
-* Containing our post type registration is not 
-* unnecessarily executed. 
-*/
+
  
 add_action( 'init', 'custom_post_type', 0 );
+
+
+function register_films_shortcode()
+{
+    add_shortcode( 'latestfilms', 'add_latest_films' );
+}
+
+/**
+ * The call back function for the shortcode. Returns our list of posts.
+ */
+function add_latest_films( $args )
+{
+    // get the posts
+    $posts = get_posts(
+        array(
+            'numberposts'   => 5,
+            'post_type' => 'films'
+        )
+    );
+
+   
+    if( empty( $posts ) ) return '';
+
+    /**
+     * Loop through each post, getting what we need and appending it to 
+     * the variable we'll send out
+     */ 
+    $out = '<ul>';
+    foreach( $posts as $post )
+    {
+        $out .= sprintf( 
+            '<li><a href="%s" title="%s">%s</a></li>',
+            get_permalink( $post ),
+            esc_attr( $post->post_title ),
+            esc_html( $post->post_title )
+        );
+    }
+    $out .= '</ul>';
+    
+    return $out;
+}
+
+add_action( 'init', 'register_films_shortcode' );

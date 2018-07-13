@@ -11,5 +11,6 @@
 				<?php get_search_form(); ?>
 			</aside>
 
-		[gallery]
+		<?= do_shortcode('[latestfilms]');?>
+
 	</div><!-- #secondary -->
