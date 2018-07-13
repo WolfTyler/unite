@@ -13,21 +13,28 @@ get_header(); ?>
 
             <ul>
             <?php 
+            ;
+
+            echo '<p>Ticket Price: '.do_shortcode('[acf field="ticket_price"]').'</p>';
+            echo 'Release Date: '.do_shortcode('[acf field="release_date"]');
 
             $items = ['actors', 'genre'];
 
             foreach($items as $item){
 
-            echo '<h4>'.ucfirst($item).":</h4>";
+            echo '<h5>'.ucfirst($item).":</h5>";
 
             $categories = get_the_terms( $post->ID , $item);
 
+            if(has_term('',$item))
+            {
             foreach ( $categories as $category ) {
 
             echo '<li>'.$category->name.'</li>';
 
 
             }
+        }
             }
             ?>
             </ul>
